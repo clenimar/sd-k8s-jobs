@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: finddahash-random
+spec:
+  activeDeadlineSeconds: 100
+  template:
+    metadata:
+      name: finddahash-random
+    spec:
+      containers:
+      - name: finddahash-random
+        image: clenimar/finddahash-random
+        command: ["python", "finddahash.py", "7888"]
+      restartPolicy: Never
