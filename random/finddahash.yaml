@@ -10,6 +10,6 @@ spec:
     spec:
       containers:
       - name: finddahash-random
-        image: clenimar/finddahash-random
-        command: ["python", "finddahash.py", "7888"]
+        image: gcr.io/winter-legend-167417/finddahash-random
+        command: ["python", "finddahash.py", "78880"]
       restartPolicy: Never
