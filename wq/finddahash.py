@@ -2,7 +2,6 @@ from hashlib import sha256
 from random import choice, randint
 from string import ascii_lowercase
 import sys
-import time
 
 import rediswq
 
