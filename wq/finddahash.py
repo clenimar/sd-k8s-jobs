@@ -15,17 +15,29 @@ HOST = "10.35.250.81"
 def work(prefix):
     """Done if there is one string whose SHA256 starts with `prefix`"""
     # create a new queue client
-    q = rediswq.RedisWQ(name="hashfinder", host=HOST)
-    print("worker with sessionID: " + q.sessionID())
-    print("queue status: empty=" + str(q.empty()))
+    work = rediswq.RedisWQ(name="work", host=HOST)
+    print("main queue status: empty=" + str(work.empty()))
 
-    # take one item from the queue. this item is supposed to be
-    # an array of strings to be processed.
-    bunch_of_strings = q.lease(lease_secs=10, block=True, timeout=2)
-    if bunch_of_strings is not None:
-        for item in bunch_of_strings:
+    if work.empty():
+        return
+
+    # Redis is a simple key-value storage, so we're using a main queue
+    # to store the name of the queues that actually have real items to work on.
+    q_name = work.lease(lease_secs=60, block=True, timeout=2)
+    q = rediswq.RedisWQ(name=q_name.decode("utf-8"), host=HOST)
+    print("worker queue with sessionID: " + q.sessionID())
+    print("worker queue status: empty=" + str(q.empty()))
+
+
+    # now process all the items in the queue. if success, return.
+    while not q.empty():
+        item = q.lease(lease_secs=10, block=True, timeout=2)
+        if item is not None:
             string = item.decode("utf-8")
+            print(string)
             h = sha256(string).hexdigest()
+            q.complete(item)
+
             if h.startswith(prefix):
                 print("string: %s with sha256sum %s" % (string, h))
                 return True
