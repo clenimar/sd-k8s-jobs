@@ -23,7 +23,7 @@ def work(prefix):
     buch_of_strings = q.lease(lease_secs=10, block=True, timeout=2)
     if bunch_of_strings is not None:
         for item in bunch_of_strings:
-            string = item.decode("uft-8")
+            string = item.decode("utf-8")
             h = sha256(string).hexdigest()
             if h.startswith(prefix):
                 print("string: %s with sha256sum %s" % (string, h))
