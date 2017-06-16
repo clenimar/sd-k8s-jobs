@@ -21,7 +21,7 @@ def work(prefix):
 
     # take one item from the queue. this item is supposed to be
     # an array of strings to be processed.
-    buch_of_strings = q.lease(lease_secs=10, block=True, timeout=2)
+    bunch_of_strings = q.lease(lease_secs=10, block=True, timeout=2)
     if bunch_of_strings is not None:
         for item in bunch_of_strings:
             string = item.decode("utf-8")
