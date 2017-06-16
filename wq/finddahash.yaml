@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: finddahash-wq-poc
+spec:
+  activeDeadlineSeconds: 20
+  template:
+    metadata:
+      name: finddahash-wq-poc
+    spec:
+      containers:
+      - name: finddahash-wq-poc
+        image: gcr.io/winter-legend-167417/finddahash-wq
+        command: ["python", "finddahash.py", "78880"]
+      restartPolicy: Never

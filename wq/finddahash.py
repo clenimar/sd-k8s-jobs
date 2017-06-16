@@ -6,14 +6,16 @@ import sys
 import rediswq
 
 
-host = "redis"
+# NOTE(clenimar): although kube-dns setup is working fine, the name 'redis'
+# doesn't resolve to the correct service address. use the hardcoded address
+# until I figure out what's happening.
+HOST = "10.35.250.81"
 
 
 def work(prefix):
     """Done if there is one string whose SHA256 starts with `prefix`"""
-
     # create a new queue client
-    q = rediswq.RedisWQ(name="hashfinder", host="redis")
+    q = rediswq.RedisWQ(name="hashfinder", host=HOST)
     print("worker with sessionID: " + q.sessionID())
     print("queue status: empty=" + str(q.empty()))
 
