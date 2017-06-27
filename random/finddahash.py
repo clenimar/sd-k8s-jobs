@@ -22,12 +22,19 @@ def generate_string():
 
 def main(prefix):
     tries = 0
+    max_tries = 1000000
     while True:
+        if tries > max_tries: break
         a = generate_string()
         tries += 1
         if check_string(a, prefix):
             print("success with %d tries" % tries)
-            break
+            return True
+            
+    # NOTE(clenimar): if we can't find what we're looking for, break.
+    # This way we make sure that only an instance that completes the
+    # work will finish.
+    raise Exception("failed")
 
 
 if __name__ == '__main__':

@@ -42,6 +42,11 @@ def work(prefix):
                 print("string: %s with sha256sum %s" % (string, h))
                 return True
 
+    # NOTE(clenimar): if we can't find what we're looking for, break.
+    # This way we make sure that only an instance that completes the
+    # work will finish.
+    raise Exception("job not completed.")
+
 
 if __name__ == '__main__':
     work(prefix=sys.argv[1])
