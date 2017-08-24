@@ -6,4 +6,4 @@ COPY ./find-hash.py /find-hash.py
 
 RUN rm -rf /var/lib/apt/lists/*
 
-CMD  /usr/bin/amqp-consume --url=amqp://guest:guest@rabbitmq-service:5672 -q foo -c 1 /find-hash.py
+CMD  /usr/bin/amqp-consume --url=amqp://guest:guest@rabbitmq-service:5672 -q job -c 1 cat | python find-hash.py

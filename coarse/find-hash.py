@@ -14,7 +14,7 @@ def check_string(string, prefix):
     """Checks if the given string's hash starts with the given prefix."""
     h = sha256(string).hexdigest()
     if h.startswith(prefix):
-        print("found! string: %s with sha256sum %s" % (string, h))
+        print("found! string: %s \nsha256sum: %s" % (string, h))
         return True
 
 
@@ -24,6 +24,7 @@ def generate_string():
 
 
 def run(prefix):
+    print("looking for a hash whose prefix is %s" % prefix)
     tries = 0
     max_tries = MAX_TRIES
     while tries < max_tries:
@@ -39,5 +40,4 @@ def run(prefix):
     raise Exception("failed. max tries reached: %d" % max_tries)
 
 
-if __name__ == '__main__':
-    run(prefix=sys.stdin.lines())
+run(prefix=sys.stdin.readline().rstrip('\n'))
