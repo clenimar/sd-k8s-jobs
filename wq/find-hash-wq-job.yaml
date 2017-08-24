@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: find-hash-wq
+spec:
+  parallelism: 2
+  activeDeadlineSeconds: 20
+  template:
+    metadata:
+      name: find-hash-wq
+    spec:
+      containers:
+      - name: find-hash-wq
+        image: gcr.io/winter-legend-167417/find-hash-wq
+        command: ["python", "finddahash.py"]
+      restartPolicy: OnFailure
