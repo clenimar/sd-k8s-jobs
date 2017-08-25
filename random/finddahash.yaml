@@ -11,5 +11,5 @@ spec:
       containers:
       - name: finddahash-random
         image: gcr.io/winter-legend-167417/finddahash-random
-        command: ["python", "finddahash.py", "78880"]
+        command: ["python", "finddahash.py", "ababa", "10000000"]
       restartPolicy: Never

@@ -20,9 +20,9 @@ def generate_string():
     return ''.join(choice(LETTERS) for _ in range(randint(1, 9)))
 
 
-def run(prefix):
+def run(prefix, m):
     tries = 0
-    max_tries = 10000000
+    max_tries = m
     while tries < max_tries:
         a = generate_string()
         tries += 1
@@ -37,4 +37,4 @@ def run(prefix):
 
 
 if __name__ == '__main__':
-    run(prefix=sys.argv[1])
+    run(prefix=sys.argv[1], m=sys.argv[2])
