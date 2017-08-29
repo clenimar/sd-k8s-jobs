@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 from hashlib import sha256
 from random import choice, randint
 from string import ascii_letters
@@ -8,13 +7,19 @@ import sys
 
 import rediswq
 
+
 LETTERS = ascii_letters + digits
+# TODO(clenimar): implement MAX_TRIES as an input parameter.
 # How many unsuccessful tries before letting it go.
 MAX_TRIES = 10000000
 # How many seconds before unblocking an item and returning it to the DB.
 LEASE_SECS = 30
+# NOTE(clenimar): for some reason the Job pods cannot resolve the redis name.
+# That's bit weird, but that's life. Hardcode it. (And fix it later, of course)
+HOST = "10.35.252.5"
 
 
+#FIXME(clenimar): implement this properly. No queue as an argument, dude.
 def check_string(string, prefix, q):
     """Checks if the given string's hash starts with the given prefix."""
     h = sha256(string).hexdigest()
@@ -48,7 +53,7 @@ def find(prefix, q):
 
 
 def run():
-    q = rediswq.RedisWQ(name="job", host="10.35.241.223")
+    q = rediswq.RedisWQ(name="job", host=HOST)
     print("Worker with sessionID: " + q.sessionID())
     print("Initial queue state: empty=" + str(q.empty()))
     while not q.empty():
@@ -58,8 +63,11 @@ def run():
             if find(prefix, q):
                 q.complete(item)
         else:
+            # TODO(clenimar): find a better way to regularly check expired
+            # leases. Preferably in the Redis queue implementation itself.
+            q.check_expired_leases()
             print("Waiting for work")
-            break
+            continue
 
     print("Queue empty, exiting")
 
