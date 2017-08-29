@@ -4,7 +4,6 @@ metadata:
   name: find-hash-wq
 spec:
   parallelism: 2
-  activeDeadlineSeconds: 20
   template:
     metadata:
       name: find-hash-wq
