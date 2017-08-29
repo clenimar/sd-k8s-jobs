@@ -22,7 +22,7 @@ def generate_string():
 
 def run(prefix, m):
     tries = 0
-    max_tries = m
+    max_tries = int(m)
     while tries < max_tries:
         a = generate_string()
         tries += 1
@@ -33,7 +33,7 @@ def run(prefix, m):
     # NOTE(clenimar): if we can't find what we're looking for, break.
     # This way we make sure that only an instance that completes the
     # work will finish.
-    raise Exception("failed")
+    raise Exception("max tries reached. sorry.")
 
 
 if __name__ == '__main__':

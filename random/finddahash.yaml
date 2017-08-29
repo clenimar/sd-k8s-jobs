@@ -3,7 +3,8 @@ kind: Job
 metadata:
   name: finddahash-random
 spec:
-  activeDeadlineSeconds: 100
+  completions: 2
+  parallelism: 3
   template:
     metadata:
       name: finddahash-random
@@ -11,5 +12,5 @@ spec:
       containers:
       - name: finddahash-random
         image: gcr.io/winter-legend-167417/finddahash-random
-        command: ["python", "finddahash.py", "ababa", "10000000"]
-      restartPolicy: Never
+        command: ["python", "finddahash.py", "ababab", "1000000"]
+      restartPolicy: OnFailure
